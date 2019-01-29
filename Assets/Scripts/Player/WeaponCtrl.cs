@@ -118,7 +118,7 @@ public class WeaponCtrl : MonoBehaviour
             InfecteeCtrl enemyCtrl = hit.transform.GetComponent<InfecteeCtrl>();
             Rigidbody rigidbody = hit.transform.GetComponent<Rigidbody>();
 
-            Debug.Log(hit.transform.gameObject.tag);
+ 
             if (hit.transform.gameObject.tag != "Infectee")
                 StartCoroutine(FireEffect(hit.point, Quaternion.FromToRotation(Vector3.up, hit.normal)));
             else
@@ -132,8 +132,8 @@ public class WeaponCtrl : MonoBehaviour
             if (enemyCtrl && enemyCtrl.hp > 0)
                 enemyCtrl.ApplyDamage(damage);
 
-            if (rigidbody)
-                rigidbody.AddForceAtPosition(transform.forward *500f * damage, transform.position);
+            //if (rigidbody)
+            //    rigidbody.AddForceAtPosition(transform.forward *500f * damage, transform.position);
         }
         currentBullets--;
         fireTimer = 0.0f;
