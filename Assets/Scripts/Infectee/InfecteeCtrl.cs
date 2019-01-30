@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class InfecteeCtrl : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class InfecteeCtrl : MonoBehaviour
     //ref
     Coroutine moveToTargetRoutine;
     ChangeRagDoll myChange;
+    NavMeshAgent nv;
 
     //enemy -> player directrion
     Vector3 toTargetDir = Vector3.zero;
@@ -33,13 +35,17 @@ public class InfecteeCtrl : MonoBehaviour
 
     //start flag
     private bool startFlag = false;
+
+    //Idle ref
+    private bool startTurn = false;
+
     private void Awake()
     {
         target = GameObject.FindWithTag("Player").transform;
         anim = GetComponent<Animator>();
         maxHp = hp;
         myChange = GetComponentInParent<ChangeRagDoll>();
-
+        nv = GetComponentInParent<NavMeshAgent>();
         toTargetDir = (new Vector3(Random.Range(-1.0f,1.0f), 0, Random.Range(-1.0f, 1.0f))).normalized;
         Quaternion toTargetRot = Quaternion.LookRotation(new Vector3(toTargetDir.x, transform.position.y, toTargetDir.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, toTargetRot, Time.deltaTime * rotSpeed);
@@ -52,6 +58,7 @@ public class InfecteeCtrl : MonoBehaviour
         target = GameObject.FindWithTag("Player").transform;
         if( startFlag )
             moveToTargetRoutine = StartCoroutine(MoveToTarget());
+
         startFlag = true;
     }
 
@@ -59,21 +66,22 @@ public class InfecteeCtrl : MonoBehaviour
     void Update()
     {
         //anim.SetBool(hashWalk, false);
-        transform.position += toTargetDir * speed * Time.fixedDeltaTime;
-
+        if( !startTurn )
+            transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
 
     private IEnumerator Idle()
     {
+        startTurn = false;
         float distance = Vector3.Distance(target.position, transform.position);
         anim.SetBool(hashWalk, true);
-
+        
         if (distance <= recognitionRange)
         {
+            Debug.Log("Asdasd");
             StartCoroutine(MoveToTarget());
-            yield return new WaitForSeconds(0.01f);
             speed = 2;
-
+            yield break;
         }
 
         speed = 1f;
@@ -84,28 +92,33 @@ public class InfecteeCtrl : MonoBehaviour
         toTargetDir = (new Vector3(Random.Range(-1.0f, 1.0f), 0, Random.Range(-1.0f, 1.0f))).normalized;
         Quaternion toTargetRot = Quaternion.LookRotation(new Vector3(toTargetDir.x, transform.position.y, toTargetDir.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, toTargetRot, Time.deltaTime * rotSpeed);
-
+        startTurn = true;
+        yield return new WaitForSeconds(1.0f);
+        
         StartCoroutine(Idle());
     }
 
     private IEnumerator MoveToTarget()
     {
-        toTargetDir = (target.position - transform.position).normalized;
-        Quaternion toTargetRot = Quaternion.LookRotation(new Vector3(toTargetDir.x , transform.position.y, toTargetDir.z));
+        //toTargetDir = (target.position - transform.position).normalized;
+        //Quaternion toTargetRot = Quaternion.LookRotation(new Vector3(toTargetDir.x , 0, toTargetDir.z));
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, toTargetRot, Time.deltaTime * rotSpeed);
+        //transform.rotation = Quaternion.Slerp(transform.rotation, toTargetRot, Time.deltaTime * rotSpeed);
 
         anim.SetBool(hashWalk, true);
+        
+        float distance = Vector3.Distance(target.position, transform.position);
 
-        //float distance = Vector3.Distance(target.position, transform.position);
-
-        //if (distance <= recognitionRange)
-        //{
-        //    if (distance <= attackRange && !isAttack)
-        //        StartCoroutine(Attack());
-        //}
+        if (distance <= recognitionRange)
+        {
+            if (distance <= attackRange && !isAttack)
+                StartCoroutine(Attack());
+        }
+        Debug.Log(target.transform.position);
+        nv.SetDestination(target.transform.position);
+        startTurn = true;
         yield return new WaitForSeconds(.5f);
-
+        Debug.Log("aaaaaaaaaa");
         moveToTargetRoutine = StartCoroutine(MoveToTarget());
     }
 

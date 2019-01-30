@@ -40,10 +40,12 @@ public class PlayerCtrl : MonoBehaviour
     private AudioSource m_AudioSource;
 
     // Animatiom
-    private Animator m_anim;
+    private Animator m_Anim;
     private int hashWalk = Animator.StringToHash("isWalk");
     private bool WasWalk = false;
 
+    // Ref
+    PlayerManager m_PlayerManager;
     // Crouch
     public float crouchSpeed;
     public float crouchHeight;
@@ -63,8 +65,8 @@ public class PlayerCtrl : MonoBehaviour
         m_Jumping = false;
         m_AudioSource = GetComponent<AudioSource>();
         m_MouseLook.Init(transform , m_Camera.transform);
-        m_anim = GetComponent<Animator>();
-
+        m_Anim = GetComponent<Animator>();
+        m_PlayerManager = GetComponent<PlayerManager>();
         // Crouch
         playerHeight = m_CharacterController.height;
 
@@ -153,8 +155,14 @@ public class PlayerCtrl : MonoBehaviour
             m_MoveDir += Physics.gravity * m_GravityMultiplier * Time.fixedDeltaTime;
         }
 
-        m_CollisionFlags = m_CharacterController.Move(m_MoveDir * Time.fixedDeltaTime);
-
+        if( m_PlayerManager.teleportFlag )
+        {
+            m_PlayerManager.teleportFlag = false;
+            transform.position = m_PlayerManager.TeleportPos;
+            m_PlayerManager.TeleportPos = Vector3.zero;
+        }
+        else
+            m_CollisionFlags = m_CharacterController.Move(m_MoveDir * Time.fixedDeltaTime);
 
         ProgressStepCycle(speed);
         UpdateCameraPosition(speed);

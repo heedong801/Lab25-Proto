@@ -16,8 +16,8 @@ public class PlayerManager : MonoBehaviour
     public static stage currentStage;
 
     // Teleport Attribute
-    private bool teleportFlag = false;
-    private Vector3 TeleportPos = Vector3.zero;
+    public bool teleportFlag = false;
+    public Vector3 TeleportPos = Vector3.zero;
 
     // References
     private CharacterController characterController;
@@ -44,12 +44,14 @@ public class PlayerManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if( teleportFlag )
-        {
-            teleportFlag = false;
-            transform.position = TeleportPos;
-            TeleportPos = Vector3.zero;
-        }
+
+        //if( teleportFlag )
+        //{
+        //    teleportFlag = false;
+        //    transform.position = TeleportPos;
+        //    Debug.Log(transform.position);
+        //    TeleportPos = Vector3.zero;
+        //}
     }
     public static void ApplyDamage(float damage)
     {
@@ -100,15 +102,19 @@ public class PlayerManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
+
         if (collision.transform.tag == "Portal" && teleportFlag == false)
         {
             InfecteeGenerator.enemyPool.ClearItem();
             
             if (currentStage == stage.STAGE_1)
             {
+                
                 SceneManager.LoadScene("Stage2");
                 currentStage = stage.STAGE_2;
                 TeleportPos = new Vector3(0, 0, -6);
+               
+
                 InfecteeGenerator.stage_EnemyZone = GameObject.FindGameObjectsWithTag("SpawnZone");
             }
             teleportFlag = true;
