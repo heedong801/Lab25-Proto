@@ -109,12 +109,10 @@ public class PlayerManager : MonoBehaviour
             
             if (currentStage == stage.STAGE_1)
             {
-                
                 SceneManager.LoadScene("Stage2");
                 currentStage = stage.STAGE_2;
                 TeleportPos = new Vector3(0, 0, -6);
                
-
                 InfecteeGenerator.stage_EnemyZone = GameObject.FindGameObjectsWithTag("SpawnZone");
             }
             teleportFlag = true;
