@@ -21,8 +21,9 @@ public class InfecteeCtrl : MonoBehaviour
 
     //anim
     private Animator anim;
-    private int hashWalk = Animator.StringToHash("isWalk");
+    private int hashFind = Animator.StringToHash("isFind");
     private int hashAttack = Animator.StringToHash("isAttack");
+    private int hashWalk = Animator.StringToHash("isWalk");
 
     //ref
     Coroutine moveToTargetRoutine;
@@ -58,7 +59,7 @@ public class InfecteeCtrl : MonoBehaviour
         target = GameObject.FindWithTag("Player").transform;
         if( startFlag )
             moveToTargetRoutine = StartCoroutine(MoveToTarget());
-
+        
         startFlag = true;
     }
 
@@ -75,10 +76,9 @@ public class InfecteeCtrl : MonoBehaviour
         startTurn = false;
         float distance = Vector3.Distance(target.position, transform.position);
         anim.SetBool(hashWalk, true);
-        
+
         if (distance <= recognitionRange)
         {
-            Debug.Log("Asdasd");
             StartCoroutine(MoveToTarget());
             speed = 2;
             yield break;
@@ -94,8 +94,21 @@ public class InfecteeCtrl : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, toTargetRot, Time.deltaTime * rotSpeed);
         startTurn = true;
         yield return new WaitForSeconds(1.0f);
-        
+
         StartCoroutine(Idle());
+
+        //speed = 0.25f;
+        //float distance = Vector3.Distance(target.position, transform.position);
+
+        //if (distance <= recognitionRange)
+        //{
+        //    StartCoroutine(MoveToTarget());
+        //    speed = 2;
+        //    anim.SetBool(hashFind, true);
+        //    yield return new WaitForSeconds(1.0f);
+        //}
+        //yield return new WaitForSeconds(3.0f);
+        //StartCoroutine(Idle());
     }
 
     private IEnumerator MoveToTarget()
@@ -114,11 +127,10 @@ public class InfecteeCtrl : MonoBehaviour
             if (distance <= attackRange && !isAttack)
                 StartCoroutine(Attack());
         }
-        Debug.Log(target.transform.position);
+
         nv.SetDestination(target.transform.position);
         startTurn = true;
         yield return new WaitForSeconds(.5f);
-        Debug.Log("aaaaaaaaaa");
         moveToTargetRoutine = StartCoroutine(MoveToTarget());
     }
 

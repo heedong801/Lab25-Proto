@@ -17,6 +17,7 @@ public class Nav : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(targetPos.position);
         nv.SetDestination(targetPos.position);
     }
 }
