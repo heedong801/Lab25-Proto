@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -21,19 +21,16 @@ public class PlayerManager : MonoBehaviour
 
     // References
     private CharacterController characterController;
+    private GameObject infecteeParent;
 
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
         currentStage = stage.STAGE_1;
         maxHp = hp;
-        //hpText.text = hp + " / " + maxHp;
-        //hpBar.localScale = Vector3.one;
+        infecteeParent = GameObject.Find("Generator");
 
-        //armorText.text = armor + " / " + maxArmor;
-        //armorBar.localScale = Vector3.one;
         DontDestroyOnLoad(gameObject);
-
     }
 
     private void Update()
@@ -102,11 +99,15 @@ public class PlayerManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-
         if (collision.transform.tag == "Portal" && teleportFlag == false)
         {
             InfecteeGenerator.enemyPool.ClearItem();
-            
+
+            foreach (Transform child in infecteeParent.transform)
+            {
+                child.GetChild(0).gameObject.GetComponent<NavMeshAgent>().enabled = false;
+            }
+
             if (currentStage == stage.STAGE_1)
             {
                 SceneManager.LoadScene("Stage2");
@@ -115,6 +116,11 @@ public class PlayerManager : MonoBehaviour
                
                 InfecteeGenerator.stage_EnemyZone = GameObject.FindGameObjectsWithTag("SpawnZone");
             }
+
+            //foreach (Transform child in infecteeParent.transform)
+            //{
+            //    child.GetChild(0).gameObject.GetComponent<NavMeshAgent>().enabled = true;
+            //}
             teleportFlag = true;
         }
     }

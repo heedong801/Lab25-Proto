@@ -34,8 +34,9 @@ public class InfecteeCtrl : MonoBehaviour
     Vector3 toTargetDir = Vector3.zero;
     Quaternion idleDir = Quaternion.identity;
 
-    //start flag
+    //flag
     private bool startFlag = false;
+    public bool nvEnableFlag = true;
 
     //Idle ref
     private bool startTurn = false;
@@ -56,7 +57,7 @@ public class InfecteeCtrl : MonoBehaviour
 
     private void OnEnable()
     {
-        nv.enabled = true;
+        //nv.enabled = true;
         target = GameObject.FindWithTag("Player").transform;
         if( startFlag )
             moveToTargetRoutine = StartCoroutine(MoveToTarget());
@@ -66,12 +67,26 @@ public class InfecteeCtrl : MonoBehaviour
 
     private void OnDisable()
     {
-        nv.enabled = false;
+        //nv.enabled = false;
+        //Debug.Log("Disable");
     }
 
     // Update is called once per frame
     void Update()
     {
+        //if(Input.GetKeyDown(KeyCode.T))
+        //{
+        //    if (nvEnableFlag)
+        //    {
+        //        nvEnableFlag = false;
+        //        nv.enabled = false;
+        //    }
+        //    else
+        //    {
+        //        nvEnableFlag = true;
+        //        nv.enabled = true;
+        //    }
+        //}
         //anim.SetBool(hashWalk, false);
         //if( !startTurn )
         //    transform.Translate(Vector3.forward * speed * Time.deltaTime);
@@ -136,12 +151,15 @@ public class InfecteeCtrl : MonoBehaviour
                 StartCoroutine(Attack());
         }
 
-        nv.SetDestination(target.transform.position);
-        Debug.Log(target.transform.position);
-        Debug.Log(nv);
+        if ( nv.enabled )
+            nv.SetDestination(target.transform.position);
+
         startTurn = true;
         yield return new WaitForSeconds(.5f);
         moveToTargetRoutine = StartCoroutine(MoveToTarget());
+
+        if (!nv.enabled)
+            nv.enabled = true;
     }
 
     private IEnumerator Attack()
@@ -166,7 +184,6 @@ public class InfecteeCtrl : MonoBehaviour
 
     private void Die()
     {
-     
         myChange.StartCoroutine(myChange.ChangeRagdoll());
     }
 
