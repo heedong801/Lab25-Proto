@@ -43,7 +43,7 @@ public class ChangeRagDoll : MonoBehaviour
 
     private void CopyAnimCharacterTransformToRagdoll(Transform origin, Transform rag)
     {
-        for (int i = 0; i < origin.transform.childCount; i++)
+        for (int i = 0; i < rag.transform.childCount; i++)
         {
             if (origin.transform.childCount != 0)
             {
