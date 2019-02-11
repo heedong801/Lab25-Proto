@@ -13,7 +13,7 @@ public class InfecteeCtrl : MonoBehaviour
     public int rotSpeed;
     public float attackRange;
     public float recognitionRange;
-    public Rigidbody spineRigidBody;
+    
 
     //functional attributes
     private bool isAttack;
@@ -35,11 +35,11 @@ public class InfecteeCtrl : MonoBehaviour
     Quaternion idleDir = Quaternion.identity;
 
     //flag
-    private bool startFlag = false;
-    public bool nvEnableFlag = true;
+    private bool isStart = false;
+    //public bool nvEnableFlag = true;
 
     //Idle ref
-    private bool startTurn = false;
+    //private bool startTurn = false;
 
     private void Awake()
     {
@@ -59,10 +59,10 @@ public class InfecteeCtrl : MonoBehaviour
     {
         //nv.enabled = true;
         target = GameObject.FindWithTag("Player").transform;
-        if( startFlag )
+        if(isStart)
             moveToTargetRoutine = StartCoroutine(MoveToTarget());
-        
-        startFlag = true;
+
+        isStart = true;
     }
 
     private void OnDisable()
@@ -154,7 +154,7 @@ public class InfecteeCtrl : MonoBehaviour
         if ( nv.enabled )
             nv.SetDestination(target.transform.position);
 
-        startTurn = true;
+        //startTurn = true;
         yield return new WaitForSeconds(.5f);
         moveToTargetRoutine = StartCoroutine(MoveToTarget());
 

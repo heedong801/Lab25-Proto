@@ -104,7 +104,7 @@ public class WeaponCtrl : MonoBehaviour
         anim.SetFloat("Speed", characterController.velocity.sqrMagnitude);
     }
     
-    private void Fire()
+    public void Fire()
     {
         if (fireTimer < fireRate || isReloading || isRunning)
         {
@@ -128,12 +128,10 @@ public class WeaponCtrl : MonoBehaviour
                 //var bP = (GameObject)Instantiate(bloodParticlePrefab, hit.transform.position + Vector3.up * 1.2f, hit.transform.rotation);
             }
 
-       
+
             if (enemyCtrl && enemyCtrl.hp > 0)
                 enemyCtrl.ApplyDamage(damage);
 
-            //if (rigidbody)
-            //    rigidbody.AddForceAtPosition(transform.forward *500f * damage, transform.position);
         }
         currentBullets--;
         fireTimer = 0.0f;
