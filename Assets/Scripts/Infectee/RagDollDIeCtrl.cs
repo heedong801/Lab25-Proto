@@ -27,7 +27,7 @@ public class RagDollDIeCtrl : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log(targetTr.position);
+        
 
         Vector3 AttackedDir = (transform.position - targetTr.position).normalized;
         //leftShinRigid.AddForce(AttackedDir * 5f);

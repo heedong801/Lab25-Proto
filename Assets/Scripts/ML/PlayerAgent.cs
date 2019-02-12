@@ -15,6 +15,10 @@ public class PlayerAgent : Agent {
     public float turnSpeed = 300;
     public float moveSpeed = 2;
 
+    public static bool isKill = false;
+    public static bool isShotMiss = false;
+
+
     public override void InitializeAgent()
     {
         base.InitializeAgent();
@@ -47,6 +51,34 @@ public class PlayerAgent : Agent {
         {
             Done();
             AddReward(-1.0f);
+        }
+
+        if( transform.position.y < - 10 )
+        {
+            Done();
+            AddReward(-1.0f);
+        }
+
+        if (isKill)
+        {
+            AddReward(0.01f);
+            isKill = false;
+        }
+
+        if( isShotMiss )
+        {
+            AddReward(-0.001f);
+            isKill = false;
+        }
+
+        if ( PlayerManager.hp <= 0 )
+        {
+            Debug.Log("ASD");
+            Done();
+            AddReward(-1.0f);
+
+            PlayerManager.hp = 100;
+            PlayerManager.armor = 100;
         }
     }
     public void MoveAgent(float[] act)
@@ -95,7 +127,11 @@ public class PlayerAgent : Agent {
 
     public override void AgentReset()
     {
-
+        transform.position = new Vector3(Random.Range(-9, 9), 1, Random.Range(-7, 17));
+        playerTr.position = new Vector3(Random.Range(-9, 9), 1, Random.Range(-7, 17));
+        AgentManager.hp = 100;
+        AgentManager.armor = 100;
+        
     }
 
     public override void AgentOnDone()
@@ -105,7 +141,7 @@ public class PlayerAgent : Agent {
 
     void RewardFunctionFarToTarget()
     {
-        if( Vector3.Distance(transform.position, playerTr.position) > 5)
-            AddReward(-0.001f);
+        if( Vector3.Distance(transform.position, playerTr.position) > 3)
+            AddReward(-0.01f);
     }
 }

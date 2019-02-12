@@ -29,7 +29,7 @@ public class AgentWeaponCtrl : MonoBehaviour
 
     // References
     public Transform shootPoint;
-    private Animator anim;
+    //private Animator anim;
     public ParticleSystem muzzleFlash;
     private CharacterController characterController;
 
@@ -60,13 +60,13 @@ public class AgentWeaponCtrl : MonoBehaviour
         bloodParticlePool.Create(bloodParticlePrefab, 100, fireTraceParent);
         characterController = GetComponentInParent<CharacterController>();
 
-        anim = GameObject.Find("Player").GetComponent<Animator>();
+        //anim = GameObject.Find("Player").GetComponent<Animator>();
     }
 
     private void Update()
     {
-        AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
-        isReloading = info.IsName("Reload");
+        //AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
+        //isReloading = info.IsName("Reload");
 
 
         if (fireTimer < fireRate)
@@ -79,10 +79,10 @@ public class AgentWeaponCtrl : MonoBehaviour
 
     private void Run()
     {
-        anim.SetBool("isRun", Input.GetKey(KeyCode.LeftShift));
+        //anim.SetBool("isRun", Input.GetKey(KeyCode.LeftShift));
         //isRunning = characterController.velocity.sqrMagnitude > 99 ? true : false;
 
-        anim.SetFloat("Speed", characterController.velocity.sqrMagnitude);
+        //anim.SetFloat("Speed", characterController.velocity.sqrMagnitude);
     }
 
     public void Fire()
@@ -99,14 +99,16 @@ public class AgentWeaponCtrl : MonoBehaviour
             InfecteeCtrl enemyCtrl = hit.transform.GetComponent<InfecteeCtrl>();
             Rigidbody rigidbody = hit.transform.GetComponent<Rigidbody>();
 
-            
+
             if (hit.transform.gameObject.tag != "Infectee")
+            {
                 StartCoroutine(FireEffect(hit.point, Quaternion.FromToRotation(Vector3.up, hit.normal)));
+                PlayerAgent.isShotMiss = true;
+            }
             else
             {
                 if (enemyCtrl && enemyCtrl.hp > 0)
                 {
-                    Debug.Log("aaaaaaaaaa");
                     StartCoroutine(BloodEffect(hit.transform.position + Vector3.up * 1.2f));
                 }
                 //var bP = (GameObject)Instantiate(bloodParticlePrefab, hit.transform.position + Vector3.up * 1.2f, hit.transform.rotation);
@@ -114,12 +116,16 @@ public class AgentWeaponCtrl : MonoBehaviour
 
 
             if (enemyCtrl && enemyCtrl.hp > 0)
+            {
                 enemyCtrl.ApplyDamage(damage);
+                if (enemyCtrl.hp <= 0)
+                    PlayerAgent.isKill = true;
+            }
 
         }
         currentBullets--;
         fireTimer = 0.0f;
-        anim.CrossFadeInFixedTime("Shoot", 0.01f);
+        //anim.CrossFadeInFixedTime("Shoot", 0.01f);
         audioSource.PlayOneShot(shootSound);    //shoot sound
         muzzleFlash.Play();
         //Recoil();
@@ -176,7 +182,7 @@ public class AgentWeaponCtrl : MonoBehaviour
     {
         if (!isReloading && currentBullets < bulletsPerMag && bulletsTotal > 0)
         {
-            anim.CrossFadeInFixedTime("Reload", 0.01f); // Reloading
+            //anim.CrossFadeInFixedTime("Reload", 0.01f); // Reloading
             audioSource.PlayOneShot(reloadSound);
         }
     }

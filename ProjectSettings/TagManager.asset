@@ -22,6 +22,7 @@ TagManager:
   - SpawnZone
   - ItemManager
   - Fire
+  - PlayerAgent
   layers:
   - Default
   - TransparentFX

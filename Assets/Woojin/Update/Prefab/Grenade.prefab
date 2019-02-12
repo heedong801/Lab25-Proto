@@ -123,10 +123,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   delay: 4
-  explosionEffect: {fileID: 2349165408778916428, guid: 3026b2afcfbb5f046801171ce82fee75,
+  explosionEffect: {fileID: 1828176872806910, guid: e138549a0851b54499acfc2e135c4f50,
     type: 3}
   radius: 5
-  explosionForce: 700
+  explosionForce: 50000
 --- !u!96 &7017290663040198715
 TrailRenderer:
   serializedVersion: 2

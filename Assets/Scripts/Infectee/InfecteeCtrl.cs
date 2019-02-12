@@ -148,7 +148,7 @@ public class InfecteeCtrl : MonoBehaviour
         if (distance <= recognitionRange)
         {
             if (distance <= attackRange && !isAttack)
-                StartCoroutine(Attack());
+                StartCoroutine(Attack(target.gameObject));
         }
 
         if ( nv.enabled )
@@ -162,11 +162,14 @@ public class InfecteeCtrl : MonoBehaviour
             nv.enabled = true;
     }
 
-    private IEnumerator Attack()
+    private IEnumerator Attack(GameObject hitPerson)
     {
         isAttack = true;
         anim.SetBool(hashAttack, true);
-        PlayerManager.ApplyDamage(damage);
+        if( hitPerson.tag == "Player")
+            PlayerManager.ApplyDamage(damage);
+        else if (hitPerson.tag == "PlayerAgent")
+            AgentManager.ApplyDamage(damage);
         yield return new WaitForSeconds(1.0f);
 
         isAttack = false;
@@ -192,7 +195,12 @@ public class InfecteeCtrl : MonoBehaviour
         if( collision.gameObject.tag == "Player")
         {
             if (!isAttack)
-                StartCoroutine(Attack());
+                StartCoroutine(Attack(collision.gameObject));
+        }
+        else if (collision.gameObject.tag == "PlayerAgent")
+        {
+            if (!isAttack)
+                StartCoroutine(Attack(collision.gameObject));
         }
     }
 }
