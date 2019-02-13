@@ -11,6 +11,8 @@ public class PlayerAgent : Agent {
     private AgentWeaponCtrl myWeaponCtrl;
    
     private Transform playerTr;
+    private PlayerManager _PlayerManager;
+
     // Agent property.
     public float turnSpeed = 300;
     public float moveSpeed = 2;
@@ -18,6 +20,7 @@ public class PlayerAgent : Agent {
     public static bool isKill = false;
     public static bool isShotMiss = false;
 
+    public Transform shootPoint;
 
     public override void InitializeAgent()
     {
@@ -29,6 +32,7 @@ public class PlayerAgent : Agent {
         rayPer = GetComponent<RayPerception>();
 
         playerTr = GameObject.Find("Player").transform;
+        _PlayerManager = GameObject.Find("Player").GetComponent<PlayerManager>();
     }
 
     public override void CollectObservations()
@@ -39,6 +43,9 @@ public class PlayerAgent : Agent {
         var detectableObjects = new[] { "Player", "Infectee", "wall" };
         AddVectorObs(rayPer.Perceive(rayDistance, rayAngles, detectableObjects, 0f, 0f));
         AddVectorObs(rayPer.Perceive(rayDistance, rayAngles, detectableObjects, 1.5f, 0f));
+        AddVectorObs(PlayerManager.hp / 100);
+        AddVectorObs(AgentManager.hp / 100);
+        AddVectorObs(shootPoint.forward);
     }
 
     public override void AgentAction(float[] vectorAction, string textAction)
@@ -47,38 +54,52 @@ public class PlayerAgent : Agent {
 
         RewardFunctionFarToTarget();
 
-        if (AgentManager.hp <= 0)
+        if (AgentManager.hp <= 0 )
         {
+            Debug.Log("agentDie");
+            AddReward(-0.9f);
             Done();
-            AddReward(-1.0f);
         }
 
-        if( transform.position.y < - 10 )
+        if( _PlayerManager.isEnd )
         {
+            Debug.Log("Clear");
+            AddReward(1.0f);
+            Done();
+        }
+
+        if ( PlayerManager.isHit )
+        {
+            AddReward(-0.5f / agentParameters.maxStep);
+            PlayerManager.isHit = true;
+        }
+
+        if ( transform.position.y < - 10 )
+        {
+            Debug.Log("agentDie");
             Done();
             AddReward(-1.0f);
         }
 
         if (isKill)
         {
-            AddReward(0.01f);
+            Debug.Log("Hit");
+            AddReward(0.15f / agentParameters.maxStep);
             isKill = false;
         }
 
         if( isShotMiss )
         {
-            AddReward(-0.001f);
-            isKill = false;
+            Debug.Log("ShotMiss");
+            AddReward(-0.3f / agentParameters.maxStep);
+            isShotMiss = false;
         }
 
-        if ( PlayerManager.hp <= 0 )
+        if ( PlayerManager.hp <= 0 && PlayerManager.armor <= 0)
         {
-            Debug.Log("ASD");
-            Done();
+            Debug.Log("playerDie");
             AddReward(-1.0f);
-
-            PlayerManager.hp = 100;
-            PlayerManager.armor = 100;
+            Done();
         }
     }
     public void MoveAgent(float[] act)
@@ -86,7 +107,7 @@ public class PlayerAgent : Agent {
         Vector3 dirToGo = Vector3.zero;
         Vector3 rotateDir = Vector3.zero;
 
-        
+       
         if ( !isHealing )
         {
             var forwardAxis = (int)act[0];
@@ -127,10 +148,15 @@ public class PlayerAgent : Agent {
 
     public override void AgentReset()
     {
-        transform.position = new Vector3(Random.Range(-9, 9), 1, Random.Range(-7, 17));
-        playerTr.position = new Vector3(Random.Range(-9, 9), 1, Random.Range(-7, 17));
+        
+        transform.position = new Vector3(-7, 1, 16);
+        //_PlayerManager.TeleportPos = new Vector3(Random.Range(-9, 9), 1, Random.Range(-7, 17));
+        //_PlayerManager.teleportFlag = true;
+        playerTr.position = new Vector3(0,1,-6);
         AgentManager.hp = 100;
         AgentManager.armor = 100;
+        PlayerManager.hp = 100;
+        PlayerManager.armor = 100;
         
     }
 

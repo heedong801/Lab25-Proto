@@ -145,11 +145,10 @@ public class InfecteeCtrl : MonoBehaviour
         
         float distance = Vector3.Distance(target.position, transform.position);
 
-        if (distance <= recognitionRange)
-        {
-            if (distance <= attackRange && !isAttack)
-                StartCoroutine(Attack(target.gameObject));
-        }
+
+        if (distance <= attackRange && !isAttack)
+            StartCoroutine(Attack(target.gameObject));
+      
 
         if ( nv.enabled )
             nv.SetDestination(target.transform.position);
@@ -166,12 +165,13 @@ public class InfecteeCtrl : MonoBehaviour
     {
         isAttack = true;
         anim.SetBool(hashAttack, true);
-        if( hitPerson.tag == "Player")
+        yield return new WaitForSeconds(0.7f);
+        if ( hitPerson.tag == "Player")
             PlayerManager.ApplyDamage(damage);
         else if (hitPerson.tag == "PlayerAgent")
             AgentManager.ApplyDamage(damage);
-        yield return new WaitForSeconds(1.0f);
 
+        yield return new WaitForSeconds(0.3f);
         isAttack = false;
         anim.SetBool(hashAttack, false);
     }
@@ -192,12 +192,12 @@ public class InfecteeCtrl : MonoBehaviour
 
     public void OnCollisionStay(Collision collision)
     {
-        if( collision.gameObject.tag == "Player")
-        {
-            if (!isAttack)
-                StartCoroutine(Attack(collision.gameObject));
-        }
-        else if (collision.gameObject.tag == "PlayerAgent")
+        //if( collision.gameObject.tag == "Player")
+        //{
+        //    if (!isAttack)
+        //        StartCoroutine(Attack(collision.gameObject));
+        //}
+        if (collision.gameObject.tag == "PlayerAgent")
         {
             if (!isAttack)
                 StartCoroutine(Attack(collision.gameObject));

@@ -18,10 +18,15 @@ public class PlayerManager : MonoBehaviour
     // Teleport Attribute
     public bool teleportFlag = false;
     public Vector3 TeleportPos = Vector3.zero;
+    public bool isEnd = false;
 
     // References
     private CharacterController characterController;
     private GameObject infecteeParent;
+    public NavMeshAgent _nvAgent;
+    private Transform targetTr;
+
+    public static bool isHit = false;
 
     private void Start()
     {
@@ -29,14 +34,20 @@ public class PlayerManager : MonoBehaviour
         currentStage = stage.STAGE_1;
         maxHp = hp;
         infecteeParent = GameObject.Find("Generator");
-
+        
         DontDestroyOnLoad(gameObject);
     }
-
+    private void OnEnable()
+    {
+        _nvAgent = GetComponent<NavMeshAgent>();
+        targetTr = GameObject.Find("Portal").transform;
+        _nvAgent.SetDestination(targetTr.position);
+    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.K))
             ApplyDamage(50);
+        _nvAgent.SetDestination(targetTr.position);
     }
 
     private void FixedUpdate()
@@ -52,6 +63,7 @@ public class PlayerManager : MonoBehaviour
     }
     public static void ApplyDamage(float damage)
     {
+        isHit = true;
         if (armor <= 0)
         {
             if (hp <= 0)
@@ -113,7 +125,7 @@ public class PlayerManager : MonoBehaviour
                 SceneManager.LoadScene("Stage2");
                 currentStage = stage.STAGE_2;
                 TeleportPos = new Vector3(0, 0, -6);
-               
+                isEnd = true;
                 InfecteeGenerator.stage_EnemyZone = GameObject.FindGameObjectsWithTag("SpawnZone");
             }
 

@@ -94,7 +94,7 @@ public class AgentWeaponCtrl : MonoBehaviour
 
         RaycastHit hit;
 
-        if (Physics.Raycast(shootPoint.position, shootPoint.transform.forward + Random.onUnitSphere * accuracy, out hit, range))
+        if (Physics.Raycast(shootPoint.position, shootPoint.transform.forward, out hit, range))
         {
             InfecteeCtrl enemyCtrl = hit.transform.GetComponent<InfecteeCtrl>();
             Rigidbody rigidbody = hit.transform.GetComponent<Rigidbody>();
@@ -118,8 +118,7 @@ public class AgentWeaponCtrl : MonoBehaviour
             if (enemyCtrl && enemyCtrl.hp > 0)
             {
                 enemyCtrl.ApplyDamage(damage);
-                if (enemyCtrl.hp <= 0)
-                    PlayerAgent.isKill = true;
+                PlayerAgent.isKill = true;
             }
 
         }

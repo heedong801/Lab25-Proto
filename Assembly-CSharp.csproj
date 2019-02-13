@@ -186,6 +186,7 @@
     <Compile Include="Assets\Scripts\ML\RayPerception.cs" />
     <Compile Include="Assets\Scripts\Monitor\FPSDisplay.cs" />
     <Compile Include="Assets\Scripts\Monitor\GameManager.cs" />
+    <Compile Include="Assets\Scripts\nv.cs" />
     <Compile Include="Assets\Scripts\Player\CurveControlledBob.cs" />
     <Compile Include="Assets\Scripts\Player\FOVKick.cs" />
     <Compile Include="Assets\Scripts\Player\LerpControlledBob.cs" />
