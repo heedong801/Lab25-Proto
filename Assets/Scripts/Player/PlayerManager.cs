@@ -111,7 +111,7 @@ public class PlayerManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.transform.tag == "Portal" && teleportFlag == false)
+        if (collision.CompareTag("Portal") && teleportFlag == false)
         {
             InfecteeGenerator.enemyPool.ClearItem();
 
@@ -141,7 +141,7 @@ public class PlayerManager : MonoBehaviour
         //Debug.Log("TCollision");
         if (Input.GetKeyDown(KeyCode.F))
         {
-            if (collision.transform.tag == "Heal")
+            if (collision.CompareTag("Heal"))
             {
                 if (Input.GetKeyDown(KeyCode.F))
                 {
@@ -149,7 +149,7 @@ public class PlayerManager : MonoBehaviour
                     Destroy(collision.gameObject);
                 }
             }
-            else if (collision.transform.tag == "Armor")
+            else if (collision.CompareTag("Armor"))
             {
                 if (Input.GetKeyDown(KeyCode.F))
                 {
@@ -164,7 +164,7 @@ public class PlayerManager : MonoBehaviour
     {
         //Debug.Log("CCollision");
        
-        if (collision.transform.tag == "Item")
+        if (collision.gameObject.CompareTag("Item"))
         {
             Destroy(collision.gameObject);
         }
@@ -172,7 +172,7 @@ public class PlayerManager : MonoBehaviour
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (hit.transform.tag == "Item")
+        if (hit.gameObject.CompareTag("Item"))
         {
             //Debug.Log("CCCollision");
             //Destroy(hit.gameObject);

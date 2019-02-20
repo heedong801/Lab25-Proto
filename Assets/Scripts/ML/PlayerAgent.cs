@@ -46,6 +46,7 @@ public class PlayerAgent : Agent {
         AddVectorObs(PlayerManager.hp / 100);
         AddVectorObs(AgentManager.hp / 100);
         AddVectorObs(shootPoint.forward);
+        AddVectorObs(playerTr.position);
     }
 
     public override void AgentAction(float[] vectorAction, string textAction)
@@ -168,6 +169,8 @@ public class PlayerAgent : Agent {
     void RewardFunctionFarToTarget()
     {
         if( Vector3.Distance(transform.position, playerTr.position) > 3)
-            AddReward(-0.01f);
+            AddReward(-0.01f / agentParameters.maxStep);
+        else
+            AddReward(0.01f / agentParameters.maxStep);
     }
 }

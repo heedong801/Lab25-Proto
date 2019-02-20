@@ -166,9 +166,9 @@ public class InfecteeCtrl : MonoBehaviour
         isAttack = true;
         anim.SetBool(hashAttack, true);
         yield return new WaitForSeconds(0.7f);
-        if ( hitPerson.tag == "Player")
+        if ( hitPerson.CompareTag("Player"))
             PlayerManager.ApplyDamage(damage);
-        else if (hitPerson.tag == "PlayerAgent")
+        else if (hitPerson.CompareTag("PlayerAgent"))
             AgentManager.ApplyDamage(damage);
 
         yield return new WaitForSeconds(0.3f);
@@ -197,7 +197,7 @@ public class InfecteeCtrl : MonoBehaviour
         //    if (!isAttack)
         //        StartCoroutine(Attack(collision.gameObject));
         //}
-        if (collision.gameObject.tag == "PlayerAgent")
+        if (collision.gameObject.CompareTag("PlayerAgent"))
         {
             if (!isAttack)
                 StartCoroutine(Attack(collision.gameObject));
