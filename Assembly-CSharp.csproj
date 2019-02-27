@@ -133,6 +133,9 @@
     <Compile Include="Assets\Scripts\ML\PlayerAgent.cs" />
     <Compile Include="Assets\Scripts\ML\PlayerDecision.cs" />
     <Compile Include="Assets\Scripts\ML\RayPerception.cs" />
+    <Compile Include="Assets\Scripts\ML\TestPlayerAgent.cs" />
+    <Compile Include="Assets\Scripts\ML\TestPlayerAgent1.cs" />
+    <Compile Include="Assets\Scripts\ML\TestPlayerAgent2.cs" />
     <Compile Include="Assets\Scripts\Monitor\FPSDisplay.cs" />
     <Compile Include="Assets\Scripts\Monitor\GameManager.cs" />
     <Compile Include="Assets\Scripts\nv.cs" />

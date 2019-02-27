@@ -303,10 +303,6 @@ public class PlayerCtrl : MonoBehaviour
 
     private void RotateView()
     {
-        //leftArm.transform.position = new Vector3(15, 15, 15);
-        //leftArm.SetActive(false);
-        //Debug.Log(leftArm.transform.position);
-
         m_MouseLook.LookRotation (transform, m_Camera.transform);
         //Debug.Log(leftArm.transform.position);
     }

@@ -23,6 +23,7 @@ TagManager:
   - ItemManager
   - Fire
   - PlayerAgent
+  - DeadZone
   layers:
   - Default
   - TransparentFX

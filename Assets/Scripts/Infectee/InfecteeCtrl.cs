@@ -178,13 +178,17 @@ public class InfecteeCtrl : MonoBehaviour
 
     public void ApplyDamage(int damage)
     {
- 
+
         hp -= damage;
-
-        if ( hp <= 0 )
-           Die();
+        //Debug.Log(hp);
+        if (hp <= 0)
+        {
+            Die();
+            //gameObject.SetActive(false);
+            //hp = 100;
+            TestPlayerAgent1.isKill = true;
+        }
     }
-
     private void Die()
     {
         myChange.StartCoroutine(myChange.ChangeRagdoll());

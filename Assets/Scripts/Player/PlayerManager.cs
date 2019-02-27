@@ -23,7 +23,7 @@ public class PlayerManager : MonoBehaviour
     // References
     private CharacterController characterController;
     private GameObject infecteeParent;
-    public NavMeshAgent _nvAgent;
+    //public NavMeshAgent _nvAgent;
     private Transform targetTr;
 
     public static bool isHit = false;
@@ -39,15 +39,15 @@ public class PlayerManager : MonoBehaviour
     }
     private void OnEnable()
     {
-        _nvAgent = GetComponent<NavMeshAgent>();
+        //_nvAgent = GetComponent<NavMeshAgent>();
         targetTr = GameObject.Find("Portal").transform;
-        _nvAgent.SetDestination(targetTr.position);
+        //_nvAgent.SetDestination(targetTr.position);
     }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.K))
             ApplyDamage(50);
-        _nvAgent.SetDestination(targetTr.position);
+        //_nvAgent.SetDestination(targetTr.position);
     }
 
     private void FixedUpdate()

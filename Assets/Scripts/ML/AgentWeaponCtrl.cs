@@ -39,7 +39,8 @@ public class AgentWeaponCtrl : MonoBehaviour
     public GameObject bloodParticlePrefab;
 
     // Animations
-    //private int hashAttack = Animator.StringToHash("isAttack");
+    private int hashAttack = Animator.StringToHash("isAttack");
+    private Animator anim;
 
     // ObjectPool
     public static MemoryPool bulletHolePool = new MemoryPool();
@@ -47,6 +48,7 @@ public class AgentWeaponCtrl : MonoBehaviour
     public static MemoryPool bloodParticlePool = new MemoryPool();
 
     private Transform fireTraceParent;
+
 
     private void Awake()
     {
@@ -60,10 +62,10 @@ public class AgentWeaponCtrl : MonoBehaviour
         bloodParticlePool.Create(bloodParticlePrefab, 100, fireTraceParent);
         characterController = GetComponentInParent<CharacterController>();
 
-        //anim = GameObject.Find("Player").GetComponent<Animator>();
+        anim = GameObject.Find("Player").GetComponent<Animator>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         //AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
         //isReloading = info.IsName("Reload");
@@ -71,7 +73,10 @@ public class AgentWeaponCtrl : MonoBehaviour
 
         if (fireTimer < fireRate)
             fireTimer += Time.deltaTime;
-        Debug.DrawRay(shootPoint.position, shootPoint.transform.forward * 10, Color.black);
+
+        
+        Debug.DrawRay(transform.position, transform.forward * 10, Color.blue);
+
 
         //RecoilBack();
         //Run();
@@ -94,7 +99,7 @@ public class AgentWeaponCtrl : MonoBehaviour
 
         RaycastHit hit;
 
-        if (Physics.Raycast(shootPoint.position, shootPoint.transform.forward, out hit, range))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, range))
         {
             InfecteeCtrl enemyCtrl = hit.transform.GetComponent<InfecteeCtrl>();
             Rigidbody rigidbody = hit.transform.GetComponent<Rigidbody>();
@@ -102,8 +107,9 @@ public class AgentWeaponCtrl : MonoBehaviour
 
             if (hit.transform.gameObject.tag != "Infectee")
             {
+                //Debug.Log("ShotMiss");
                 StartCoroutine(FireEffect(hit.point, Quaternion.FromToRotation(Vector3.up, hit.normal)));
-                PlayerAgent.isShotMiss = true;
+                TestPlayerAgent1.isShotMiss = true;
             }
             else
             {
@@ -113,14 +119,13 @@ public class AgentWeaponCtrl : MonoBehaviour
                 }
                 //var bP = (GameObject)Instantiate(bloodParticlePrefab, hit.transform.position + Vector3.up * 1.2f, hit.transform.rotation);
             }
-
-
             if (enemyCtrl && enemyCtrl.hp > 0)
-            {
                 enemyCtrl.ApplyDamage(damage);
-                PlayerAgent.isKill = true;
-            }
-
+        }
+        else
+        {
+            //Debug.Log("Miss");
+            TestPlayerAgent1.isShotMiss = true;
         }
         currentBullets--;
         fireTimer = 0.0f;
