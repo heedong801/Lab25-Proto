@@ -61,6 +61,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\FieldOfViewEditor.cs" />
+    <Compile Include="Assets\ML-Agents\Editor\AgentEditor.cs" />
+    <Compile Include="Assets\ML-Agents\Editor\BrainEditor.cs" />
+    <Compile Include="Assets\ML-Agents\Editor\BrainParametersDrawer.cs" />
+    <Compile Include="Assets\ML-Agents\Editor\BroadcastHubDrawer.cs" />
+    <Compile Include="Assets\ML-Agents\Editor\DemonstrationDrawer.cs" />
+    <Compile Include="Assets\ML-Agents\Editor\DemonstrationImporter.cs" />
+    <Compile Include="Assets\ML-Agents\Editor\HeuristicBrainEditor.cs" />
+    <Compile Include="Assets\ML-Agents\Editor\LearningBrainEditor.cs" />
+    <Compile Include="Assets\ML-Agents\Editor\PlayerBrainEditor.cs" />
+    <Compile Include="Assets\ML-Agents\Editor\ResetParameterDrawer.cs" />
+    <Compile Include="Assets\ML-Agents\Editor\Tests\DemonstrationTests.cs" />
+    <Compile Include="Assets\ML-Agents\Editor\Tests\EditModeTestActionMasker.cs" />
+    <Compile Include="Assets\ML-Agents\Editor\Tests\EditModeTestInternalBrainTensorApplier.cs" />
+    <Compile Include="Assets\ML-Agents\Editor\Tests\EditModeTestInternalBrainTensorGenerator.cs" />
+    <Compile Include="Assets\ML-Agents\Editor\Tests\MLAgentsEditModeTest.cs" />
+    <Compile Include="Assets\ML-Agents\Editor\Tests\MultinomialTest.cs" />
+    <Compile Include="Assets\ML-Agents\Editor\Tests\RandomNormalTest.cs" />
+    <Compile Include="Assets\ML-Agents\Editor\Tests\UtilitiesTests.cs" />
     <Compile Include="Assets\PostProcessing\Editor\Attributes\PostProcessingModelEditorAttribute.cs" />
     <Compile Include="Assets\PostProcessing\Editor\Models\AmbientOcclusionModelEditor.cs" />
     <Compile Include="Assets\PostProcessing\Editor\Models\AntialiasingModelEditor.cs" />
@@ -352,6 +370,30 @@
     </Reference>
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/15.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Abstractions">
+      <HintPath>D:/Lab25Git/Assets/ML-Agents/Plugins/System.IO.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Abstractions.TestingHelpers">
+      <HintPath>D:/Lab25Git/Assets/ML-Agents/Plugins/System.IO.Abstractions.TestingHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics">
+      <HintPath>D:/Lab25Git/Assets/ML-Agents/Plugins/System.Numerics.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple">
+      <HintPath>D:/Lab25Git/Assets/ML-Agents/Plugins/System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="TensorFlowSharp">
+      <HintPath>D:/Lab25Git/Assets/ML-Agents/Plugins/Computer/TensorFlowSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Protobuf">
+      <HintPath>D:/Lab25Git/Assets/ML-Agents/Plugins/ProtoBuffer/Google.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="Grpc.Core">
+      <HintPath>D:/Lab25Git/Assets/ML-Agents/Plugins/ProtoBuffer/Grpc.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Interactive.Async">
+      <HintPath>D:/Lab25Git/Assets/ML-Agents/Plugins/ProtoBuffer/System.Interactive.Async.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Editor">
       <HintPath>D:/Lab25Git/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Editor.dll</HintPath>

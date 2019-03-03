@@ -61,7 +61,7 @@ public class InfecteeCtrl : MonoBehaviour
         target = GameObject.FindWithTag("Player").transform;
         if(isStart)
             moveToTargetRoutine = StartCoroutine(MoveToTarget());
-
+        anim.applyRootMotion = false;
         isStart = true;
     }
 
@@ -118,13 +118,14 @@ public class InfecteeCtrl : MonoBehaviour
 
         //StartCoroutine(Idle());
 
-        speed = 0.25f;
+        //speed = 0.25f;
+        anim.applyRootMotion = true;
         float distance = Vector3.Distance(target.position, transform.position);
 
         if (distance <= recognitionRange)
         {
             StartCoroutine(MoveToTarget());
-            
+            anim.applyRootMotion = false;
             anim.SetBool(hashFind, true);
             speed = 0f;
             yield return new WaitForSeconds(3.0f);
