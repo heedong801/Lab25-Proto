@@ -9,8 +9,8 @@ public class InfecteeCtrl1 : MonoBehaviour
     public int hp;
     public int maxHp;
     public int damage;
-    public float speed;
-    public int rotSpeed;
+    //public float speed;
+    //public int rotSpeed;
     public float attackRange;
     public float recognitionRange;
 
@@ -51,7 +51,7 @@ public class InfecteeCtrl1 : MonoBehaviour
         nv = GetComponentInParent<NavMeshAgent>();
         toTargetDir = (new Vector3(Random.Range(-1.0f, 1.0f), 0, Random.Range(-1.0f, 1.0f))).normalized;
         Quaternion toTargetRot = Quaternion.LookRotation(new Vector3(toTargetDir.x, transform.position.y, toTargetDir.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation, toTargetRot, Time.deltaTime * rotSpeed);
+        //transform.rotation = Quaternion.Slerp(transform.rotation, toTargetRot, Time.deltaTime * rotSpeed);
 
         StartCoroutine(Idle());
     }
@@ -123,6 +123,7 @@ public class InfecteeCtrl1 : MonoBehaviour
     private IEnumerator Attack(GameObject hitPerson)
     {
         int randomAttackPattern = Random.Range(0, 2);
+        float distance = Vector3.Distance(target.position, transform.position);
 
         isAttack = true;
 
@@ -134,10 +135,6 @@ public class InfecteeCtrl1 : MonoBehaviour
                 PlayerManager.ApplyDamage(damage);
             else if (hitPerson.CompareTag("PlayerAgent"))
                 AgentManager.ApplyDamage(damage);
-
-            yield return new WaitForSeconds(0.3f);
-            isAttack = false;
-            anim.SetBool(hashAttack1, false);
         }
         else
         {
@@ -147,10 +144,17 @@ public class InfecteeCtrl1 : MonoBehaviour
                 PlayerManager.ApplyDamage(damage);
             else if (hitPerson.CompareTag("PlayerAgent"))
                 AgentManager.ApplyDamage(damage);
-
+        }
+        if (distance <= attackRange)
+        {
             yield return new WaitForSeconds(0.3f);
-            isAttack = false;
+            StartCoroutine(Attack(target.gameObject));
+        }
+        else
+        {
+            anim.SetBool(hashAttack1, false);
             anim.SetBool(hashAttack2, false);
+            isAttack = false;
         }
     }
 
