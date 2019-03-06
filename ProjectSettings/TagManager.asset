@@ -39,9 +39,9 @@ TagManager:
   - Grenade
   - HUD
   - Enviroment
-  - 
-  - 
-  - 
+  - Player
+  - Enemy
+  - Team
   - 
   - 
   - 

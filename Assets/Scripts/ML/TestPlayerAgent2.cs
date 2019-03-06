@@ -93,7 +93,7 @@ public class TestPlayerAgent2 : Agent
         //AddVectorObs(Vector3.Dot(transform.forward, endPos));
 
         //============================ 2-27 ======================
-        float[] rayAngles = {45f, 60f, 75f, 90f, 105f, 120f, 135f };
+        float[] rayAngles = { 87f, 90f, 92f };
 
         var detectableObjects = new[] { "Infectee", "wall", "Player" };
 
@@ -102,6 +102,20 @@ public class TestPlayerAgent2 : Agent
 
         AddVectorObs(rayPer.Perceive(rayDistance, rayAngles, detectableObjects, 0f, 0f));
         AddVectorObs(Vector3.Dot(transform.forward, endPos));
+
+        //AddVectorObs(playerRb.angularVelocity);
+        //AddVectorObs(playerTr.position);
+
+        //============================ 2-28 ======================
+        //float[] rayAngles = {45f, 60f, 75f, 90f, 105f, 120f, 135f };
+
+        //var detectableObjects = new[] { "Infectee", "wall", "Player" };
+
+        //endPos = Vector3.Normalize(transform.TransformDirection(
+        //          RayPerception.PolarToCartesian(12, 90)));
+
+        //AddVectorObs(rayPer.Perceive(rayDistance, rayAngles, detectableObjects, 0f, 0f));
+        //AddVectorObs(Vector3.Dot(transform.forward, endPos));
 
         //AddVectorObs(playerRb.angularVelocity);
         //AddVectorObs(playerTr.position);
@@ -208,32 +222,32 @@ public class TestPlayerAgent2 : Agent
         }
     }
 
-    public override void AgentReset()
-    {
-        count = 0;
-        isKill = false;
-        isShotMiss = false;
-        transform.rotation = Quaternion.identity;
-        ResetTarget();      
-    }
+    //public override void AgentReset()
+    //{
+    //    count = 0;
+    //    isKill = false;
+    //    isShotMiss = false;
+    //    transform.rotation = Quaternion.identity;
+    //    ResetTarget();      
+    //}
 
-    void ResetTarget()
-    {
-        int liveCount = 0;
+    //void ResetTarget()
+    //{
+    //    int liveCount = 0;
         
 
-        liveCount = 0;
-        for (int i = 0; i < targets.Length; i++)
-        {
-            int random = Random.Range(0, 2);
-            //Debug.Log(random);
-            if (random == 0)
-                targets[i].gameObject.SetActive(false);
-            else 
-            {
-                liveCount++;
-                targets[i].gameObject.SetActive(true);
-            }
-        }
-    }
+    //    liveCount = 0;
+    //    for (int i = 0; i < targets.Length; i++)
+    //    {
+    //        int random = Random.Range(0, 2);
+    //        //Debug.Log(random);
+    //        if (random == 0)
+    //            targets[i].gameObject.SetActive(false);
+    //        else 
+    //        {
+    //            liveCount++;
+    //            targets[i].gameObject.SetActive(true);
+    //        }
+    //    }
+    //}
 }

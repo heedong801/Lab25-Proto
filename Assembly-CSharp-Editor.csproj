@@ -371,6 +371,30 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/15.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
+    <Reference Include="System.IO.Abstractions">
+      <HintPath>D:/Lab25Git/Assets/ML-Agents/Plugins/System.IO.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Abstractions.TestingHelpers">
+      <HintPath>D:/Lab25Git/Assets/ML-Agents/Plugins/System.IO.Abstractions.TestingHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics">
+      <HintPath>D:/Lab25Git/Assets/ML-Agents/Plugins/System.Numerics.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple">
+      <HintPath>D:/Lab25Git/Assets/ML-Agents/Plugins/System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="TensorFlowSharp">
+      <HintPath>D:/Lab25Git/Assets/ML-Agents/Plugins/Computer/TensorFlowSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Protobuf">
+      <HintPath>D:/Lab25Git/Assets/ML-Agents/Plugins/ProtoBuffer/Google.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="Grpc.Core">
+      <HintPath>D:/Lab25Git/Assets/ML-Agents/Plugins/ProtoBuffer/Grpc.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Interactive.Async">
+      <HintPath>D:/Lab25Git/Assets/ML-Agents/Plugins/ProtoBuffer/System.Interactive.Async.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Analytics.Editor">
       <HintPath>D:/Lab25Git/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Editor.dll</HintPath>
     </Reference>
@@ -382,30 +406,6 @@
     </Reference>
     <Reference Include="UnityEditor.Purchasing">
       <HintPath>D:/Lab25Git/Library/PackageCache/com.unity.purchasing@2.0.3/Editor/UnityEditor.Purchasing.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.Protobuf">
-      <HintPath>D:/Lab25Git/Assets/ML-Agents/Plugins/ProtoBuffer/Google.Protobuf.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.Abstractions.TestingHelpers">
-      <HintPath>D:/Lab25Git/Assets/ML-Agents/Plugins/System.IO.Abstractions.TestingHelpers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ValueTuple">
-      <HintPath>D:/Lab25Git/Assets/ML-Agents/Plugins/System.ValueTuple.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.Abstractions">
-      <HintPath>D:/Lab25Git/Assets/ML-Agents/Plugins/System.IO.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="TensorFlowSharp">
-      <HintPath>D:/Lab25Git/Assets/ML-Agents/Plugins/Computer/TensorFlowSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Numerics">
-      <HintPath>D:/Lab25Git/Assets/ML-Agents/Plugins/System.Numerics.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Interactive.Async">
-      <HintPath>D:/Lab25Git/Assets/ML-Agents/Plugins/ProtoBuffer/System.Interactive.Async.dll</HintPath>
-    </Reference>
-    <Reference Include="Grpc.Core">
-      <HintPath>D:/Lab25Git/Assets/ML-Agents/Plugins/ProtoBuffer/Grpc.Core.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.3.5f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
