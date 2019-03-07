@@ -84,8 +84,13 @@ public class WeaponCtrl : MonoBehaviour
         AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
         isReloading = info.IsName("Reload");
         if (Input.GetMouseButton(0) && !Input.GetMouseButtonDown(0) && !Input.GetMouseButtonUp(0))
-            Fire();
-        else if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (currentBullets > 0)
+                Fire();
+            else
+                DoReload();
+        }
+        if (Input.GetKeyDown(KeyCode.R))
             DoReload();
 
         if (fireTimer < fireRate)
@@ -118,7 +123,7 @@ public class WeaponCtrl : MonoBehaviour
             InfecteeCtrl enemyCtrl = hit.transform.GetComponent<InfecteeCtrl>();
             Rigidbody rigidbody = hit.transform.GetComponent<Rigidbody>();
 
- 
+         
             if (hit.transform.gameObject.tag != "Infectee")
                 StartCoroutine(FireEffect(hit.point, Quaternion.FromToRotation(Vector3.up, hit.normal)));
             else
@@ -127,11 +132,8 @@ public class WeaponCtrl : MonoBehaviour
                     StartCoroutine(BloodEffect(hit.transform.position + Vector3.up * 1.2f));
                 //var bP = (GameObject)Instantiate(bloodParticlePrefab, hit.transform.position + Vector3.up * 1.2f, hit.transform.rotation);
             }
-
-
             if (enemyCtrl && enemyCtrl.hp > 0)
                 enemyCtrl.ApplyDamage(damage);
-
         }
         currentBullets--;
         fireTimer = 0.0f;

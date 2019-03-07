@@ -6,183 +6,192 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-	public Animator interactAnimator;
-	public Animator missionAnimator;
-	public float range = 100f;
-	public float fireRate = 15f;
-	float nextTimeToFire = 0f;
-	bool takeDamge;
-	private float lerpTime;
-	public float sliderLerpSpeed = 2f;
+    public Animator interactAnimator;
+    public Animator missionAnimator;
+    public float range = 100f;
+    public float fireRate = 15f;
+    float nextTimeToFire = 0f;
+    bool takeDamge;
+    private float lerpTime;
+    public float sliderLerpSpeed = 2f;
 
-	[Header("Default")]
-	public Camera fpsCam;
-	public GameObject HUD;
-	public ItemManager itemManager;
+    [Header("Default")]
+    public Camera fpsCam;
+    public GameObject HUD;
+    public ItemManager itemManager;
 
-	[Header("Helmet")]
-	public Image helmetFadeImage;
-	public float fadeSpeed = 2f;
+    [Header("Helmet")]
+    public Image helmetFadeImage;
+    public float fadeSpeed = 2f;
 
-	[Header("Player UI")]
-	public Slider healthProgressbar;
-	public Slider armorProgressbar;
-	public TextMeshProUGUI healthText;
-	public TextMeshProUGUI armorText;
-	public TextMeshProUGUI heratRateText;
+    [Header("Player UI")]
+    public Slider healthProgressbar;
+    public Slider armorProgressbar;
+    public TextMeshProUGUI healthText;
+    public TextMeshProUGUI armorText;
+    public TextMeshProUGUI heratRateText;
 
-	[Header("Mission UI")]
-	public TextMeshProUGUI missionTimeText;
-	public TextMeshProUGUI missionMesseageText;
-	public bool isMissionStart;
-	public bool isMissionComplete;
-	public float missionTime;
-	public float newMissionTime;
-	public string missionMessage;
-	public string newMissionMessage;
+    [Header("Mission UI")]
+    public TextMeshProUGUI missionTimeText;
+    public TextMeshProUGUI missionMesseageText;
+    public bool isMissionStart;
+    public bool isMissionComplete;
+    public float missionTime;
+    public float newMissionTime;
+    public string missionMessage;
+    public string newMissionMessage;
 
-	[Header("Weapon UI")]
-	int maxBullet = 30;
-	int totalBullet = 360;
-	float bulletlerpTime;
-	bool fired;
-	public TextMeshProUGUI noWeaponText;
-	public TextMeshProUGUI bulletCountText;
-	public TextMeshProUGUI totalBulletText;
-	public Slider bulletSlider;
-	public Sprite[] weaponImage;
-	public Image currentWeaponImage;
+    [Header("Weapon UI")]
+    int maxBullet = 30;
+    int totalBullet = 360;
+    float bulletlerpTime;
+    bool fired;
+    public TextMeshProUGUI noWeaponText;
+    public TextMeshProUGUI bulletCountText;
+    public TextMeshProUGUI totalBulletText;
+    public Slider bulletSlider;
+    public Sprite[] weaponImage;
+    public Image currentWeaponImage;
 
-	[Header("Item UI")]
-	public TextMeshProUGUI kitCountText;
-	public TextMeshProUGUI adrenalineCountText;
-	public TextMeshProUGUI grenadeCountText;
-	[HideInInspector] public bool isPointingItem;
-	[HideInInspector] public bool changeWeaponImage;
+    [Header("Item UI")]
+    public TextMeshProUGUI kitCountText;
+    public TextMeshProUGUI adrenalineCountText;
+    public TextMeshProUGUI grenadeCountText;
+    [HideInInspector] public bool isPointingItem;
+    [HideInInspector] public bool changeWeaponImage;
 
-	void Start()
-	{
-		currentWeaponImage.sprite = weaponImage[0];
-	}
+    void Start()
+    {
+        currentWeaponImage.sprite = weaponImage[0];
+    }
 
-	void Update()
-	{
-		TextUpdate();
-		SpriteUpdate();
-		DeveloperMode();
-		MissionUpdate();
-	}
+    void Update()
+    {
+        TextUpdate();
+        SpriteUpdate();
+        DeveloperMode();
+        MissionUpdate();
+    }
 
-	void MissionUpdate()
-	{
-		if (isMissionStart)
-		{
-			missionAnimator.SetBool("MissionStart", isMissionStart);
+    void MissionUpdate()
+    {
+        if (isMissionStart)
+        {
+            missionAnimator.SetBool("MissionStart", isMissionStart);
 
-			if (missionAnimator.GetCurrentAnimatorStateInfo(0).IsName("MissionStart")
-				&& missionAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
-				missionTime -= Time.deltaTime;
-		}
+            if (missionAnimator.GetCurrentAnimatorStateInfo(0).IsName("MissionStart")
+                && missionAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
+                missionTime -= Time.deltaTime;
+        }
 
-		if (isMissionComplete)
-		{
-			isMissionStart = false;
-			missionAnimator.SetBool("MissionStart", isMissionStart);
+        if (isMissionComplete)
+        {
+            isMissionStart = false;
+            missionAnimator.SetBool("MissionStart", isMissionStart);
 
-			if (missionAnimator.GetCurrentAnimatorStateInfo(0).IsName("MissionComplete")
-				&& missionAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
-			{
-				missionTime = newMissionTime;
-				missionMessage = newMissionMessage;
-				isMissionComplete = false;
-			}
-		}
-	}
+            if (missionAnimator.GetCurrentAnimatorStateInfo(0).IsName("MissionComplete")
+                && missionAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
+            {
+                missionTime = newMissionTime;
+                missionMessage = newMissionMessage;
+                isMissionComplete = false;
+            }
+        }
+    }
 
-	void TextUpdate()
-	{
-		// player Update
-		healthProgressbar.value = Mathf.Clamp(Mathf.Floor(ItemManager.currentHealth / itemManager.totalHealth * 1000) * 0.001f, 0, 1);
-		armorProgressbar.value = Mathf.Clamp(Mathf.Floor(ItemManager.currentArmor / itemManager.totalArmor * 1000) * 0.001f, 0, 1);
+    void TextUpdate()
+    {
+        // player Update
+        if (Input.GetKeyDown(KeyCode.Space))
+            PlayerManager.hp -= 30f;
 
-		healthText.text = Mathf.Clamp(Mathf.Floor(ItemManager.currentHealth), 0, itemManager.totalHealth).ToString();
-		armorText.text = Mathf.Clamp(Mathf.Floor(ItemManager.currentArmor), 0, itemManager.totalArmor).ToString();
-		heratRateText.text = Mathf.Clamp(Mathf.Floor(itemManager.currentHeartRate), 0, itemManager.totalHeartRate).ToString();
+        healthProgressbar.value = PlayerManager.hp / 100f;
+        
+        /*Mathf.Clamp(Mathf.Floor(ItemManager.currentHealth / itemManager.totalHealth * 1000) * 0.001f, 0, 1);*/
+        armorProgressbar.value = Mathf.Clamp(Mathf.Floor(ItemManager.currentArmor / itemManager.totalArmor * 1000) * 0.001f, 0, 1);
 
-		// bullet Update
-		bulletCountText.text = Mathf.Clamp(WeaponCtrl.currentBullets, 0, maxBullet).ToString();
-		totalBulletText.text = totalBullet.ToString();
 
-		// item Update
-		kitCountText.text = itemManager.medicalKitCount.ToString();
-		adrenalineCountText.text = itemManager.adrenalineCount.ToString();
-		grenadeCountText.text = itemManager.grenadeCount.ToString();
+        bulletSlider.value = Mathf.Floor((float)WeaponCtrl.currentBullets / (float)maxBullet * 100f) * 0.01f;
 
-		// mission Update
-		int minutes = Mathf.FloorToInt(missionTime / 60F);
-		int seconds = Mathf.FloorToInt(missionTime - minutes * 60);
-		string time = string.Format("{0:0}:{1:00}", minutes, seconds);
 
-		missionTimeText.text = time.ToString();
-		missionMesseageText.text = missionMessage;
-	}
+        healthText.text = Mathf.Clamp(Mathf.Floor(ItemManager.currentHealth), 0, itemManager.totalHealth).ToString();
+        armorText.text = Mathf.Clamp(Mathf.Floor(ItemManager.currentArmor), 0, itemManager.totalArmor).ToString();
+        heratRateText.text = Mathf.Clamp(Mathf.Floor(itemManager.currentHeartRate), 0, itemManager.totalHeartRate).ToString();
 
-	void SpriteUpdate()
-	{
-		if (itemManager.isHoldingWeapon && changeWeaponImage)
-		{
-			noWeaponText.enabled = false;
-			currentWeaponImage.sprite = weaponImage[itemManager.weaponIndex];
-			changeWeaponImage = false;
-		}
+        // bullet Update
+        bulletCountText.text = Mathf.Clamp(WeaponCtrl.currentBullets, 0, maxBullet).ToString();
+        totalBulletText.text = totalBullet.ToString();
 
-		interactAnimator.SetBool("FadeIn", isPointingItem);     // f key update
-	}
+        // item Update
+        kitCountText.text = itemManager.medicalKitCount.ToString();
+        adrenalineCountText.text = itemManager.adrenalineCount.ToString();
+        grenadeCountText.text = itemManager.grenadeCount.ToString();
 
-	void DeveloperMode()
-	{
-		// health Test
-		if (Input.GetButtonDown("Fire1"))
-		{
-			//currentHealth -= 7f;
-			//currentArmor -= 10f;
-			//takeDamge = true;
-		}
+        // mission Update
+        int minutes = Mathf.FloorToInt(missionTime / 60F);
+        int seconds = Mathf.FloorToInt(missionTime - minutes * 60);
+        string time = string.Format("{0:0}:{1:00}", minutes, seconds);
 
-		if (Input.GetKeyDown(KeyCode.M))
-			isMissionStart = true;
+        missionTimeText.text = time.ToString();
+        missionMesseageText.text = missionMessage;
+    }
 
-		if (Input.GetKeyDown(KeyCode.C))
-			isMissionComplete = true;
+    void SpriteUpdate()
+    {
+        if (itemManager.isHoldingWeapon && changeWeaponImage)
+        {
+            noWeaponText.enabled = false;
+            currentWeaponImage.sprite = weaponImage[itemManager.weaponIndex];
+            changeWeaponImage = false;
+        }
 
-		if (Input.GetKeyDown(KeyCode.R))
-		{
-			totalBullet -= (maxBullet - WeaponCtrl.currentBullets);
-			WeaponCtrl.currentBullets = maxBullet;
-			bulletSlider.value = 1f;
-		}
+        interactAnimator.SetBool("FadeIn", isPointingItem);     // f key update
+    }
 
-		bulletSlider.value = WeaponCtrl.currentBullets / maxBullet;
-	}
+    void DeveloperMode()
+    {
+        // health Test
+        if (Input.GetButtonDown("Fire1"))
+        {
+            //currentHealth -= 7f;
+            //currentArmor -= 10f;
+            //takeDamge = true;
+        }
 
-	public IEnumerator FadeIn()
-	{
-		for (float i = 0; i <= 1; i += fadeSpeed * Time.deltaTime)
-		{
-			helmetFadeImage.color = new Color(helmetFadeImage.color.r, helmetFadeImage.color.g, helmetFadeImage.color.b, i);
-			yield return null;
-		}
-		HUD.SetActive(true);
-		yield return new WaitForSeconds(.1f);
-		StartCoroutine(FadeOut());
-	}
+        if (Input.GetKeyDown(KeyCode.M))
+            isMissionStart = true;
 
-	IEnumerator FadeOut()
-	{
-		for (float i = 1; i >= 0; i -= fadeSpeed * Time.deltaTime)
-		{
-			helmetFadeImage.color = new Color(helmetFadeImage.color.r, helmetFadeImage.color.g, helmetFadeImage.color.b, i);
-			yield return null;
-		}
-	}
+        if (Input.GetKeyDown(KeyCode.C))
+            isMissionComplete = true;
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            totalBullet -= (maxBullet - WeaponCtrl.currentBullets);
+            WeaponCtrl.currentBullets = maxBullet;
+            bulletSlider.value = 1f;
+        }
+
+        //bulletSlider.value = WeaponCtrl.currentBullets / maxBullet;
+    }
+
+    public IEnumerator FadeIn()
+    {
+        for (float i = 0; i <= 1; i += fadeSpeed * Time.deltaTime)
+        {
+            helmetFadeImage.color = new Color(helmetFadeImage.color.r, helmetFadeImage.color.g, helmetFadeImage.color.b, i);
+            yield return null;
+        }
+        HUD.SetActive(true);
+        yield return new WaitForSeconds(.1f);
+        StartCoroutine(FadeOut());
+    }
+
+    IEnumerator FadeOut()
+    {
+        for (float i = 1; i >= 0; i -= fadeSpeed * Time.deltaTime)
+        {
+            helmetFadeImage.color = new Color(helmetFadeImage.color.r, helmetFadeImage.color.g, helmetFadeImage.color.b, i);
+            yield return null;
+        }
+    }
 }

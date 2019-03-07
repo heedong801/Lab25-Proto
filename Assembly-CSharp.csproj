@@ -170,7 +170,7 @@
     <Compile Include="Assets\PostProcessing\Utilities\CustomMotionTexture\ExampleWheelController.cs" />
     <Compile Include="Assets\Scripts\Infectee\ChangeRagDoll.cs" />
     <Compile Include="Assets\Scripts\Infectee\InfecteeCtrl.cs" />
-    <Compile Include="Assets\Scripts\Infectee\InfecteeCtrl1.cs" />
+    <Compile Include="Assets\Scripts\Infectee\InfecteeCtrl3.cs" />
     <Compile Include="Assets\Scripts\Infectee\InfecteeGenerator.cs" />
     <Compile Include="Assets\Scripts\Infectee\InfecteeZone.cs" />
     <Compile Include="Assets\Scripts\Infectee\RagDollDIeCtrl.cs" />
@@ -197,6 +197,7 @@
     <Compile Include="Assets\Scripts\Player\MouseLook.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerCtrl.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerManager.cs" />
+    <Compile Include="Assets\Scripts\Player\ReloadState.cs" />
     <Compile Include="Assets\Scripts\Player\WeaponCtrl.cs" />
     <Compile Include="Assets\Scripts\Player\WeaponSway.cs" />
     <Compile Include="Assets\Scripts\TeamPlayer\TeamCtrl.cs" />
